@@ -2,10 +2,14 @@ import * as React from 'react';
 import axios from 'axios';
 import { serverUrl } from '../../helpers/Constants';
 
-interface IFormContainerProps {}
+interface IFormContainerProps {
+  updateReloadState: () => void;
+}
 
-const FormContainer: React.FunctionComponent<IFormContainerProps> = () => {
+const FormContainer: React.FunctionComponent<IFormContainerProps> = (props) => {
   const [fullUrl, setFullUrl] = React.useState<string>('');
+  const { updateReloadState } = props;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -13,6 +17,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = () => {
         fullUrl: fullUrl,
       });
       setFullUrl('');
+      updateReloadState();
     } catch (err) {
       console.log(err);
     }
@@ -20,7 +25,7 @@ const FormContainer: React.FunctionComponent<IFormContainerProps> = () => {
   return (
     <>
       <div className="conatiner mx-auto p-2">
-        <div className="bg-banner my-8 rounded-xl bg-cover bg-center">
+        <div className="bg-banner:banner my-8 rounded-xl bg-cover bg-center">
           <div className="w-full h-full rounded-xl p-20 backdrop-brightness-50">
             <h2 className="text-white text-4xl text-center pb-4">Tiny URL</h2>
             <p className="text-white text-xl text-center font-extralight">
